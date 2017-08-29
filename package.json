@@ -8,6 +8,7 @@
   "module": "es/index.js",
   "files": [
     "Dummy.js",
+    "Dummier.js",
     "es",
     "index.js",
     "umd"
