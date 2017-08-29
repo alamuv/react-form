@@ -8,9 +8,11 @@ notifications:
 node_js:
   - '8'
 script:
+  - yarn test
   - yarn lint
 after_success:
   - yarn semantic-release
+  - npx nyc report --reporter=text-lcov | npx coveralls
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
