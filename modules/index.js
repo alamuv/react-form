@@ -1,3 +1,4 @@
 import Dummy from './Dummy'
+import * as Dummier from './Dummier'
 
-export { Dummy }
+export { Dummy, Dummier }
