@@ -1,6 +1,6 @@
 {
   "name": "@beardedtim/dummy-template",
-  "version": "0.0.1",
+  "version": "0.0.0-semantically-released",
   "description": "A basic template for ES6 modules",
   "author": "beardedtim <timiroberts@gmail.com>",
   "license": "MIT",
@@ -85,5 +85,9 @@
   },
   "standard": {
     "parser": "babel-eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/beardedtim/dummy.git"
   }
 }
