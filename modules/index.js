@@ -1,4 +1,3 @@
-import Dummy from './Dummy'
-import * as Dummier from './Dummier'
+import Form from './Form'
 
-export { Dummy, Dummier }
+export { Form }

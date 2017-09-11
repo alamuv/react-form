@@ -21,22 +21,22 @@ exec('babel modules -d es', {
   BABEL_ENV: 'es'
 })
 
-console.log('\nBuilding dummy-template.js ...')
+console.log('\nBuilding react-form.js ...')
 
-exec('rollup -c -i modules/index.js -o umd/dummy-template.js', {
+exec('rollup -c -i modules/index.js -o umd/react-form.js', {
   BABEL_ENV: 'es',
   NODE_ENV: 'development'
 })
 
-console.log('\nBuilding dummy-template.min.js ...')
+console.log('\nBuilding react-form.min.js ...')
 
-exec('rollup -c -i modules/index.js -o umd/dummy-template.min.js', {
+exec('rollup -c -i modules/index.js -o umd/react-form.min.js', {
   BABEL_ENV: 'es',
   NODE_ENV: 'production'
 })
 
 const size = gzipSize.sync(
-  fs.readFileSync('umd/dummy-template.min.js')
+  fs.readFileSync('umd/react-form.min.js')
 )
 
 console.log('\ngzipped, the UMD build is %s', prettyBytes(size))

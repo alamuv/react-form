@@ -1,14 +1,23 @@
 {
-  "name": "@beardedtim/dummy-template",
-  "version": "0.0.0-semantically-released",
+  "name": "@kofile/react-form",
+  "version": "0.0.0-development",
   "description": "A basic template for ES6 modules",
-  "author": "beardedtim <timiroberts@gmail.com>",
+  "contributors": [
+    {
+      "name": "Joey Gomez-Benito",
+      "email": "jgbenito7@gmail.com"
+    },
+    {
+      "name": "Tim Roberts",
+      "email": "timiroberts@gmail.com"
+    }
+  ],
   "license": "MIT",
   "main": "index.js",
   "module": "es/index.js",
   "files": [
-    "Dummy.js",
-    "Dummier.js",
+    "Form.js",
+    "Field.js",
     "es",
     "index.js",
     "umd"
@@ -89,6 +98,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/beardedtim/dummy.git"
+    "url": "https://github.com/kofile/react-form.git"
   }
 }
