@@ -2,7 +2,7 @@
 const config = {
   sourceMaps: 'inline',
   presets: ['./tools/es2015-preset.js', 'react'],
-  plugins: ['transform-class-properties']
+  plugins: ['transform-class-properties', 'transform-object-rest-spread']
 }
 
 if (process.env === 'production') {
