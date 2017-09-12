@@ -45,7 +45,6 @@ class Field extends Component {
 
   getInputProps = () => {
     const defaultProps = {
-      // Aria shtuff
       value: this.props.value,
       onChange: this.onChange,
       id: this.props.id
@@ -73,8 +72,6 @@ class Field extends Component {
       getInputValues: this.getInputValues,
       error: this.props.error
     }
-
-    console.log(childProps, 'childProps')
 
     return children(childProps)
   }
