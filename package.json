@@ -45,7 +45,6 @@
     "nyc": "^11.1.0",
     "prettier-standard": "^6.0.0",
     "pretty-bytes": "^4.0.2",
-    "ramda": "^0.24.1",
     "react": "^15.6.1",
     "rollup": "^0.47.4",
     "rollup-plugin-babel": "^3.0.2",
@@ -59,7 +58,8 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "prop-types": "^15.5.10"
+    "prop-types": "^15.5.10",
+    "ramda": "^0.24.1"
   },
   "lint-staged": {
     "modules/*.js": [
