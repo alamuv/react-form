@@ -39,6 +39,7 @@
     "coveralls": "^2.13.1",
     "cz-cli": "^1.0.0",
     "cz-conventional-changelog": "^2.0.0",
+    "enzyme": "^2.9.1",
     "gzip-size": "^3.0.0",
     "husky": "^0.13.4",
     "lint-staged": "^3.6.0",
@@ -46,6 +47,9 @@
     "prettier-standard": "^6.0.0",
     "pretty-bytes": "^4.0.2",
     "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-test-renderer": "^15.6.1",
+    "react-test-utils": "^0.0.1",
     "rollup": "^0.47.4",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^8.2.1",
@@ -79,9 +83,17 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "ava": {
+    "files": [
+      "tests/**/*.js"
+    ],
     "require": [
       "babel-register"
-    ]
+    ],
+    "babel": {
+      "presets": [
+        "./.babelrc.js"
+      ]
+    }
   },
   "babel": {
     "presets": [
