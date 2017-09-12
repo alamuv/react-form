@@ -65,7 +65,7 @@ class Field extends Component {
   })
 
   render () {
-    const { children } = this.props
+    const { render } = this.props
 
     const childProps = {
       getInputProps: this.getInputProps,
@@ -73,7 +73,12 @@ class Field extends Component {
       error: this.props.error
     }
 
-    return children(childProps)
+    if (render.prototype.render) {
+      // eslint-disable-next-line new-cap
+      return new render(childProps)
+    }
+
+    return render(childProps)
   }
 }
 
@@ -88,7 +93,7 @@ Field.propTypes = {
   updateFormError: PropTypes.func,
   validateOn: PropTypes.oneOf(['onBlur', 'onSubmit', 'onChange', 'onFocus']),
   validate: PropTypes.func,
-  children: PropTypes.func.isRequired
+  render: PropTypes.func.isRequired
 }
 
 export default Field
