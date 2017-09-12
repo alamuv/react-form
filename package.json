@@ -48,6 +48,8 @@
     "react": "^15.6.1",
     "rollup": "^0.47.4",
     "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-commonjs": "^8.2.1",
+    "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1",
     "semantic-release": "^7.0.2",
     "snazzy": "^7.0.0",
