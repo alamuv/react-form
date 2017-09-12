@@ -85,7 +85,7 @@ class Field extends Component {
 Field.displayName = 'Field'
 
 Field.defaultProps = {
-  validate: () => ''
+  render: () => null
 }
 
 Field.propTypes = {
@@ -93,7 +93,7 @@ Field.propTypes = {
   updateFormError: PropTypes.func,
   validateOn: PropTypes.oneOf(['onBlur', 'onSubmit', 'onChange', 'onFocus']),
   validate: PropTypes.func,
-  render: PropTypes.func.isRequired
+  render: PropTypes.func
 }
 
 export default Field

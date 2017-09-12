@@ -35,6 +35,7 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
+    "browser-env": "^3.2.0",
     "commitizen": "^2.9.6",
     "coveralls": "^2.13.1",
     "cz-cli": "^1.0.0",
@@ -56,6 +57,7 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1",
     "semantic-release": "^7.0.2",
+    "sinon": "^3.2.1",
     "snazzy": "^7.0.0",
     "standard": "^10.0.3"
   },

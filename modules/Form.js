@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import R from 'ramda'
 import Field from './Field.js'
 
 const clone = React.cloneElement
+const noop = () => {}
 
 const checkChildType = child => {
   if (child.type.name !== 'Field') {
@@ -47,7 +49,9 @@ class Form extends Component {
   }
 
   updateChildErrorsOnSubmit = () => {
-    const formFields = this.props.children.filter(checkChildType)
+    const formFields = React.Children
+      .toArray(this.props.children)
+      .filter(checkChildType)
 
     if (this.props.validateOn === 'onSubmit') {
       const errorArray = formFields.map(({ props }) => {
@@ -69,14 +73,16 @@ class Form extends Component {
   handleSubmit = e => {
     e.preventDefault()
 
-    const formFields = this.props.children.filter(checkChildType)
+    const formFields = React.Children
+      .toArray(this.props.children)
+      .filter(checkChildType)
 
     const { formErrors } = this.state
 
     const valid = formFields.every(({ props }) => {
-      const { id, validate, value } = props
+      const { id, validate = () => '', value } = props
 
-      return !formErrors[id] && R.complement(validate)(value)
+      return !formErrors[id] && !validate(value)
     })
 
     if (valid) {
@@ -116,6 +122,20 @@ class Form extends Component {
 
     return <form onSubmit={this.handleSubmit}>{mappedChildren}</form>
   }
+}
+
+Form.displayName = 'Form'
+Form.propTypes = {
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+  validate: PropTypes.func,
+  validateOn: PropTypes.string
+}
+
+Form.defaultProps = {
+  onChange: noop,
+  onSubmit: noop,
+  validate: () => ''
 }
 
 Form.Field = Field
