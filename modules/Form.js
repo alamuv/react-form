@@ -115,8 +115,8 @@ class Form extends Component {
         updateFormError: this.updateFormError(id),
         value: this.state.formValues[id] || '',
         error: this.state.formErrors[id] || '',
-        validate: validate || this.props.validate,
-        validateOn: validateOn || this.props.validateOn
+        validateOn: validateOn || this.props.validateOn,
+        validate: validate || this.props.validate
       })
     })
 
