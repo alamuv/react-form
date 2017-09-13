@@ -1,6 +1,6 @@
 {
   "name": "@kofile/react-form",
-  "version": "0.0.0-development",
+  "version": "0.0.0-semantically-released",
   "description": "A basic template for ES6 modules",
   "contributors": [
     {
