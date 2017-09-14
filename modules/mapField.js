@@ -9,7 +9,7 @@ const mapField = (formConfig, formProps) => {
   const { updateFormValue, updateFormError, formValues, formErrors } = formProps
 
   const fields = R.mapObjIndexed((inputConfig, key) => {
-    const { validateOn = noop, validateWith = noop } = inputConfig
+    const { validateOn = '', validateWith = noop } = inputConfig
     const updateFormValueForKey = updateFormValue(key)
     const updateFormErrorForKey = updateFormError(key)
 
