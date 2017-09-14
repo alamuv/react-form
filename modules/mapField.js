@@ -15,16 +15,17 @@ const mapField = (formConfig, formProps) => {
 
     const updateError = e => {
       const value = getValueFromEvent(e)
+      const error = validateWith(value)
 
-      updateFormErrorForKey(validateWith(value))
+      updateFormErrorForKey(error)
     }
 
     const onChange = e => {
-      const value = getValueFromEvent(e)
-
       if (validateOn === 'change') {
         updateError(e)
       }
+
+      const value = getValueFromEvent(e)
 
       return updateFormValueForKey(value)
     }
