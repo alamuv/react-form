@@ -1,6 +1,6 @@
 import R from 'ramda'
 
-const isEvent = e => R.has('nativeEvent', e)
+const isEvent = R.has('nativeEvent')
 const getEventValue = R.path(['target', 'value'])
 const getValueFromEvent = R.ifElse(isEvent, getEventValue, R.identity)
 const noop = () => {}
