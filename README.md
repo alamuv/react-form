@@ -4,7 +4,7 @@
 
 ```js
 import React from 'react'
-import Form from '@kofile/react-form'
+import { Form } from '@kofile/react-form'
 
 const config = {
   email: {
