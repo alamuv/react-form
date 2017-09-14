@@ -5,6 +5,15 @@ const getEventValue = R.path(['target', 'value'])
 const getValueFromEvent = R.ifElse(isEvent, getEventValue, R.identity)
 const noop = () => {}
 
+const resolveValidateEvent = validateOn => {
+  return validateOn
+    ? {
+      focus: 'onFocus',
+      blur: 'onBlur'
+    }[validateOn]
+    : {}
+}
+
 const mapField = (formConfig, formProps) => {
   const { updateFormValue, updateFormError, formValues, formErrors } = formProps
 
@@ -30,17 +39,12 @@ const mapField = (formConfig, formProps) => {
       return updateFormValueForKey(value)
     }
 
-    const validateEvent = {
-      focus: 'onFocus',
-      blur: 'onBlur'
-    }[validateOn]
-
     return {
       inputProps: {
         id: key,
         onChange,
-        value: formValues[key],
-        [validateEvent]: updateError
+        value: formValues[key] || '',
+        ...resolveValidateEvent()
       },
       labelProps: {
         htmlFor: key

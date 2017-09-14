@@ -83,14 +83,14 @@ class Form extends Component {
   }
 
   render () {
-    const { render, formConfig } = this.props
+    const { render, config } = this.props
     const formProps = {
       ...this.state,
       updateFormError: this.updateFormError,
       updateFormValue: this.updateFormValue
     }
 
-    const fields = mapField(formConfig, formProps)
+    const fields = mapField(config, formProps)
 
     return <form onSubmit={this.handleSubmit(fields)}>{render(fields)}</form>
   }
