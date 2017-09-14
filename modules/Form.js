@@ -90,19 +90,7 @@ class Form extends Component {
       updateFormValue: this.updateFormValue
     }
 
-<<<<<<< HEAD
-      return clone(child, {
-        updateFormValue: this.updateFormValue(id),
-        updateFormError: this.updateFormError(id),
-        value: this.state.formValues[id] || '',
-        error: this.state.formErrors[id] || '',
-        validateOn: validateOn || this.props.validateOn,
-        validate: validate || this.props.validate
-      })
-    })
-=======
     const fields = mapField(formConfig, formProps)
->>>>>>> 7dd6a36... feat(Field): Remove field and add config mapper
 
     return <form onSubmit={this.handleSubmit(fields)}>{render(fields)}</form>
   }
