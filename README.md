@@ -20,7 +20,7 @@ const config = {
 class MyForm extends React.Component {
   handleSubmit = ({ formValues, isValid }) => {
     if (!isValid) {
-      return;
+      return
     }
 
     return handleSuccess(formValues)
@@ -32,11 +32,11 @@ class MyForm extends React.Component {
         <h2>My Awesome Form!</h2>
         <Form onSubmit={this.handleSubmit} config={config} render={(fields) => (
           <div>
-            <label {...fields.email.labelProps}>Email</label>
+            <label htmlFor={fields.email}>Email</label>
             <input {...fields.email.inputProps}/>
           </div>
           <div>
-            <label {...fields.password.labelProps}>Password</label>
+            <label htmlFor={fields.password}>Password</label>
             <input {...fields.password.inputProps}/>
           </div>
         )} />

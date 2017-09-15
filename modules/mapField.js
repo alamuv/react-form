@@ -39,18 +39,15 @@ const mapField = (formConfig, formProps) => {
       return updateFormValueForKey(value)
     }
 
-    return {
+    return Object.assign(key, {
       inputProps: {
         id: key,
         onChange,
         value: formValues[key] || '',
         ...resolveValidateEvent()
       },
-      labelProps: {
-        htmlFor: key
-      },
       error: formErrors[key]
-    }
+    })
   }, formConfig)
 
   return fields
