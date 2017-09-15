@@ -1,36 +1,27 @@
 import R from 'ramda'
-
-const isEvent = R.has('nativeEvent')
-const getEventValue = R.path(['target', 'value'])
-const getValueFromEvent = R.ifElse(isEvent, getEventValue, R.identity)
-const noop = () => {}
-
-const resolveValidateEvent = validateOn => {
-  return validateOn
-    ? {
-      focus: 'onFocus',
-      blur: 'onBlur'
-    }[validateOn]
-    : {}
-}
+import {
+  getValueFromEvent,
+  runAllValidations,
+  resolveValidateEvent
+} from './utils.js'
 
 const mapField = (formConfig, formProps) => {
   const { updateFormValue, updateFormError, formValues, formErrors } = formProps
 
   const fields = R.mapObjIndexed((inputConfig, key) => {
-    const { validateOn = '', validateWith = noop } = inputConfig
+    const { validateOn = [], validateWith = [] } = inputConfig
     const updateFormValueForKey = updateFormValue(key)
     const updateFormErrorForKey = updateFormError(key)
 
     const updateError = e => {
       const value = getValueFromEvent(e)
-      const error = validateWith(value)
+      const error = runAllValidations(value, validateWith)
 
       updateFormErrorForKey(error)
     }
 
     const onChange = e => {
-      if (validateOn === 'change') {
+      if (R.contains('change', validateOn)) {
         updateError(e)
       }
 
@@ -44,7 +35,7 @@ const mapField = (formConfig, formProps) => {
         id: key,
         onChange,
         value: formValues[key] || '',
-        ...resolveValidateEvent()
+        ...resolveValidateEvent(validateOn, validateWith)
       },
       error: formErrors[key]
     })

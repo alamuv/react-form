@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import R from 'ramda'
 import mapField from './mapField.js'
+import { runAllValidations } from './utils.js'
 
 const noop = () => {}
 
@@ -41,13 +42,13 @@ class Form extends Component {
 
   updateChildErrorsOnSubmit = fields => {
     const errorArray = R.values(fields).map(field => {
-      const { id, validateWith, validateOn, value } = field
+      const { id, validateWith = [], validateOn = [], value } = field
 
-      if (validateOn && validateOn !== 'submit') {
+      if (!R.contains('submit', validateOn)) {
         return
       }
 
-      const validationResponse = validateWith(value)
+      const validationResponse = runAllValidations(value, validateWith)
 
       return validationResponse ? { [id]: validationResponse } : {}
     })
@@ -61,10 +62,10 @@ class Form extends Component {
     const { formErrors, formValues } = this.state
 
     const valid = R.values(fields).every(field => {
-      const { id, validateWith = () => '' } = field
+      const { id, validateWith = [] } = field
       const value = formValues[id]
 
-      return !formErrors[id] && !validateWith(value)
+      return !formErrors[id] && !runAllValidations(value, validateWith)
     })
 
     if (valid) {

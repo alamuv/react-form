@@ -38,8 +38,8 @@ test('mapField correctly maps error handlers', t => {
   }
   const formConfig = {
     email: {
-      validateOn: 'change',
-      validateWith: () => 'stuff'
+      validateOn: ['change'],
+      validateWith: [() => 'stuff']
     },
     password: {}
   }
