@@ -1,18 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import R from 'ramda'
-import Field from './Field.js'
+import mapField from './mapField.js'
 
-const clone = React.cloneElement
 const noop = () => {}
-
-const checkChildType = child => {
-  if (child.type.name !== 'Field') {
-    return false
-  }
-
-  return true
-}
 
 class Form extends Component {
   constructor (props) {
@@ -48,41 +39,32 @@ class Form extends Component {
     this.updateFormState(newState)
   }
 
-  updateChildErrorsOnSubmit = () => {
-    const formFields = React.Children
-      .toArray(this.props.children)
-      .filter(checkChildType)
+  updateChildErrorsOnSubmit = fields => {
+    const errorArray = R.values(fields).map(field => {
+      const { id, validateWith, validateOn, value } = field
 
-    if (this.props.validateOn === 'onSubmit') {
-      const errorArray = formFields.map(({ props }) => {
-        const { id, validate, value } = props
+      if (validateOn && validateOn !== 'submit') {
+        return
+      }
 
-        if (props.validateOn && props.validateOn !== 'onSubmit') {
-          return
-        }
+      const validationResponse = validateWith(value)
 
-        const validationResponse = validate(value)
+      return validationResponse ? { [id]: validationResponse } : {}
+    })
 
-        return validationResponse ? { [id]: validationResponse } : {}
-      })
-
-      return this.setState({ formErrors: R.mergeAll(errorArray) })
-    }
+    return this.setState({ formErrors: R.mergeAll(errorArray) })
   }
 
-  handleSubmit = e => {
+  handleSubmit = fields => e => {
     e.preventDefault()
 
-    const formFields = React.Children
-      .toArray(this.props.children)
-      .filter(checkChildType)
+    const { formErrors, formValues } = this.state
 
-    const { formErrors } = this.state
+    const valid = R.values(fields).every(field => {
+      const { id, validateWith = () => '' } = field
+      const value = formValues[id]
 
-    const valid = formFields.every(({ props }) => {
-      const { id, validate = () => '', value } = props
-
-      return !formErrors[id] && !validate(value)
+      return !formErrors[id] && !validateWith(value)
     })
 
     if (valid) {
@@ -96,48 +78,37 @@ class Form extends Component {
         isValid: false
       })
 
-      this.updateChildErrorsOnSubmit()
+      this.updateChildErrorsOnSubmit(fields)
     }
   }
 
   render () {
-    const { children } = this.props
+    const { render, config } = this.props
+    const formProps = {
+      ...this.state,
+      updateFormError: this.updateFormError,
+      updateFormValue: this.updateFormValue
+    }
 
-    const mappedChildren = React.Children.map(children, child => {
-      const { id, validate, validateOn } = child.props
+    const fields = mapField(config, formProps)
 
-      if (!checkChildType(child)) {
-        return child
-      }
-
-      return clone(child, {
-        updateFormValue: this.updateFormValue(id),
-        updateFormError: this.updateFormError(id),
-        value: this.state.formValues[id] || '',
-        error: this.state.formErrors[id] || '',
-        validateOn: validateOn || this.props.validateOn,
-        validate: validate || this.props.validate
-      })
-    })
-
-    return <form onSubmit={this.handleSubmit}>{mappedChildren}</form>
+    return <form onSubmit={this.handleSubmit(fields)}>{render(fields)}</form>
   }
 }
 
 Form.displayName = 'Form'
 Form.propTypes = {
+  config: PropTypes.object,
+  render: PropTypes.func,
   onChange: PropTypes.func,
-  onSubmit: PropTypes.func,
-  validate: PropTypes.func,
-  validateOn: PropTypes.string
+  onSubmit: PropTypes.func
 }
 
 Form.defaultProps = {
   onChange: noop,
   onSubmit: noop,
-  validate: () => ''
+  render: () => null,
+  config: {}
 }
-
-Form.Field = Field
 
 export default Form

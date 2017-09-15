@@ -1,87 +1,49 @@
 import React from 'react'
-import test from 'ava'
-import browserEnv from 'browser-env'
 import { mount } from 'enzyme'
+import test from 'ava'
 import sinon from 'sinon'
-import Form from '../../../modules/Form.js'
-import Field from '../../../modules/Field.js'
+import browserEnv from 'browser-env'
+
+import Form from '../../../modules/Form'
 
 browserEnv()
 
-test('Form gives props to child if Field', t => {
-  const wrapper = mount(
-    <Form >
-      <Field name='test' />
-    </Form>
-  )
+test('Form supplies correct input props in render', t => {
+  const config = {
+    email: {},
+    password: {}
+  }
 
-  const fieldProps = wrapper.find(Field).props()
+  const wrapper = mount(<Form config={config} render={(fields) => (
+    <input {...fields.email.inputProps} />
+  )} />)
 
-  t.is(fieldProps.name, 'test')
-  t.truthy(fieldProps.updateFormValue)
-  t.truthy(fieldProps.updateFormError)
-  t.is(fieldProps.value, '')
-  t.is(fieldProps.error, '')
+  const inputProps = wrapper.find('input').props()
+
+  t.is(inputProps.id, 'email')
+  t.is(inputProps.value, '')
 })
 
-test('Form validate and validateOn are passed', t => {
-  const formProps = {
-    validate: () => 'error',
-    validateOn: 'onSubmit'
+test('Calling input on change updates form state', t => {
+  const onChangeSpy = sinon.spy()
+
+  const config = {
+    email: {},
+    password: {}
   }
 
-  const wrapper = mount(
-    <Form {...formProps}>
-      <Field name='test' />
-    </Form>
-  )
+  const wrapper = mount(<Form onChange={onChangeSpy} config={config} render={(fields) => (
+    <input {...fields.email.inputProps} />
+  )} />)
 
-  const fieldProps = wrapper.find(Field).props()
+  wrapper.find('input').simulate('change', {
+    target: {
+      value: 'hey'
+    }
+  })
 
-  t.is(fieldProps.validate, formProps.validate)
-  t.is(fieldProps.validateOn, formProps.validateOn)
-})
-
-test('Field validate and validateOn trumps form', t => {
-  const formProps = {
-    validate: () => 'error',
-    validateOn: 'onSubmit'
-  }
-
-  const fieldProps = {
-    name: 'test',
-    validate: () => 'i am field error',
-    validateOn: 'onChange'
-  }
-
-  const wrapper = mount(
-    <Form {...formProps}>
-      <Field {...fieldProps} />
-    </Form>
-  )
-
-  const props = wrapper.find(Field).props()
-
-  t.is(props.validate, fieldProps.validate)
-  t.is(props.validateOn, fieldProps.validateOn)
-})
-
-test('Form onSubmit calls onSubmit with formValues and isValid', t => {
-  const onSubmit = sinon.spy()
-
-  const formProps = {
-    validate: () => '',
-    validateOn: 'onSubmit',
-    onSubmit
-  }
-
-  const wrapper = mount(
-    <Form {...formProps}>
-      <Field name='test' />
-    </Form>
-  )
-
-  wrapper.find('form').simulate('submit')
-
-  t.truthy(formProps.onSubmit.called)
+  t.truthy(onChangeSpy.calledWith({
+    formValues: { email: 'hey' },
+    formErrors: {}
+  }))
 })
