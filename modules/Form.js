@@ -24,28 +24,31 @@ class Form extends Component {
     }
   }
 
-  updateFormState = newState => {
-    this.props.onChange(newState)
+  updateFormState = stateChange => {
+    this.props.onChange(R.merge(this.state, stateChange))
 
-    this.setState(newState)
+    this.setState(stateChange)
   }
 
   updateFormValue = key => value => {
-    const newState = R.mergeDeepRight(this.state, {
-      formValues: { [key]: value }
+    const { formValues } = this.state
+    const newState = R.merge(formValues, {
+      [key]: value
     })
 
-    this.updateFormState(newState)
+    this.updateFormState({ formValues: newState })
   }
 
   updateFormError = key => error => {
-    const newState = error
-      ? R.mergeDeepRight(this.state, {
-        formErrors: { [key]: error }
-      })
-      : this.state
+    const { formErrors } = this.state
 
-    this.updateFormState(newState)
+    const newState = error
+      ? R.merge(formErrors, {
+        [key]: error
+      })
+      : formErrors
+
+    this.updateFormState({ formErrors: newState })
   }
 
   updateChildErrorsOnSubmit = fields => {
