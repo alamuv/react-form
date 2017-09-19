@@ -10,14 +10,24 @@ class Form extends Component {
   constructor (props) {
     super(props)
 
+    const { config } = props
+
+    const defaultValues = R.compose(
+      R.pickBy(R.complement(R.isNil)),
+      R.pickBy(R.complement(R.isEmpty)),
+      R.mapObjIndexed(R.prop('value'))
+    )(config)
+
     this.state = {
-      formValues: {},
+      formValues: defaultValues,
       formErrors: {}
     }
   }
 
   updateFormState = newState => {
     this.props.onChange(newState)
+
+    console.log(newState)
 
     this.setState(newState)
   }
