@@ -27,8 +27,6 @@ class Form extends Component {
   updateFormState = newState => {
     this.props.onChange(newState)
 
-    console.log(newState)
-
     this.setState(newState)
   }
 
